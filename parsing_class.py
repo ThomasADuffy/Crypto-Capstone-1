@@ -62,6 +62,17 @@ class coinmarketcap_jsonfile(object):
         df['time'] = df['time'].apply(lambda x :datetime.fromtimestamp(int(int(x)/1000)))
         return df
 
+class csv_cleaner(object):
+
+    def __init__(self,filename):
+        self.data = pd.read_csv(filename,error_bad_lines=False)
+        self.clean_column_names()
+        
+    def clean_column_names(self):
+        colnames = self.data.columns.tolist()
+        colnames = [col.lower().strip().replace(' ', '_') for col in colnames]
+        self.data.columns = colnames
+
 
 if __name__ == "__main__":
     btc=coinmarketcap_jsonfile(f"/media/{getpass.getuser()}/extra/Crypto-Capstone-1/data/Json/bitcoin.json")
