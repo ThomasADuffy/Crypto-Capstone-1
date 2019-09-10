@@ -9,11 +9,12 @@ from datetime import datetime
 class coinmarketcap_jsonfile(object):
 
     def __init__(self,filename):
+        self.filename=filename
         with open(filename) as file:
             self.data = json.load(file)
         self.keys = list(self.data.keys())
         self.values= list(self.data.values())
-        self.parse_time_data()
+        self.clean_data()
 
     def print_keys(self):
         for key in self.keys:
@@ -55,21 +56,29 @@ class coinmarketcap_jsonfile(object):
             else:
                 df=pd.merge(df,self.key_value_to_pd(key,value), on='time',how='left')
         self.data = df
-        return self.data
 
     def parse_time_data(self):
         ''' This will take in the dataframe created by mege_df_on_time and reformate the time
         column into a date time objects.'''
-        if isinstance(self.data, pd.DataFrame):
-            self.data['time'] = self.data['time'].apply(lambda x :datetime.fromtimestamp(int(int(x)/1000)))
-        else:
-            self.merge_df_on_time()
-            self.data['time'] = self.data['time'].apply(lambda x :datetime.fromtimestamp(int(int(x)/1000)))
-        
-    def date_filter(self,startdate,enddate):
-        ''' Note: startdate and enddate must be a string and formated like 2018-01-10'''
 
-        return self.data[(self.data['time'] > startdate) & (self.data['time'] < enddate)]
+        self.data['time'] = self.data['time'].apply(lambda x :datetime.fromtimestamp((int(int(x)/1000))).strftime('%m-%d-%Y'))
+        
+
+    def clean_data(self):
+        '''This runs all of the cleaning functions in this class.'''
+
+        self.merge_df_on_time()
+        self.parse_time_data()
+
+    def date_filter(self,startdate,enddate):
+        ''' Note: startdate and enddate must be a string and formated like 12-25-2018'''
+        self.data=self.data[(self.data['time'] > startdate) & (self.data['time'] < enddate)]
+
+    def reset_data(self):
+        '''Resets data to original state'''
+
+        with open(self.filename) as file:
+            self.data = json.load(file)
 
     def print_min_max_datetime(self):
         
@@ -79,11 +88,12 @@ class coinmarketcap_jsonfile(object):
 class crypto_csv_tweets(object):
 
     def __init__(self,filename):
+        self.filename=filename
         self.data = pd.read_csv(filename, error_bad_lines=False)
         self.clean_data()
 
     def reset_data(self):
-        self.data = pd.read_csv(filename, error_bad_lines=False)
+        self.data = pd.read_csv(self.filename, error_bad_lines=False)
         
     def clean_column_names(self):
         colnames = self.data.columns.tolist()
@@ -91,7 +101,7 @@ class crypto_csv_tweets(object):
         self.data.columns = colnames
 
     def create_datetime_objects(self):
-        self.data['datetime'] = pd.to_datetime(self.data['datetime'])
+        self.data['datetime'] = pd.to_datetime(self.data['datetime'],format='%m-%d-%Y')
 
     def clean_data(self):
         ''' This just runs both of the functions to clean the data'''
@@ -99,10 +109,12 @@ class crypto_csv_tweets(object):
         self.create_datetime_objects()
 
     def date_filter(self,startdate,enddate):
-        ''' Note: startdate and enddate must be a string and formated like 2018-01-10'''
+        ''' Note: startdate and enddate must be a string and formated like 12-25-2018'''
         self.data=self.data[(self.data['datetime'] > startdate) & (self.data['datetime'] < enddate)] 
 
     def count_tweets_by_day(self):
+        ''' This will return a dataframe with the date and the count of total tweets next to it'''
+
         df = self.data['datetime'].dt.date.value_counts().reset_index().sort_values('index').reset_index(drop=True)
         colnames = df.columns.tolist()
         colnames = ['time','count']
