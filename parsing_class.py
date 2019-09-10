@@ -61,7 +61,8 @@ class coinmarketcap_jsonfile(object):
         ''' This will take in the dataframe created by mege_df_on_time and reformate the time
         column into a date time objects.'''
 
-        self.data['time'] = self.data['time'].apply(lambda x :datetime.fromtimestamp((int(int(x)/1000))).strftime('%m-%d-%Y'))
+        self.data['time'] = self.data['time'].apply(lambda x :datetime.fromtimestamp((int(int(x)/1000))))
+        self.data['time'] = self.data['time'].dt.date
         
 
     def clean_data(self):
@@ -71,7 +72,7 @@ class coinmarketcap_jsonfile(object):
         self.parse_time_data()
 
     def date_filter(self,startdate,enddate):
-        ''' Note: startdate and enddate must be a string and formated like 12-25-2018'''
+        ''' Note: startdate and enddate must be a string and formated like 2017-10-30'''
         self.data=self.data[(self.data['time'] > startdate) & (self.data['time'] < enddate)]
 
     def reset_data(self):
@@ -101,7 +102,8 @@ class crypto_csv_tweets(object):
         self.data.columns = colnames
 
     def create_datetime_objects(self):
-        self.data['datetime'] = pd.to_datetime(self.data['datetime'],format='%m-%d-%Y')
+        self.data['datetime'] = pd.to_datetime(self.data['datetime'])
+        self.data['datetime'] = self.data['datetime'].dt.date
 
     def clean_data(self):
         ''' This just runs both of the functions to clean the data'''
@@ -109,13 +111,13 @@ class crypto_csv_tweets(object):
         self.create_datetime_objects()
 
     def date_filter(self,startdate,enddate):
-        ''' Note: startdate and enddate must be a string and formated like 12-25-2018'''
+        ''' Note: startdate and enddate must be a string and formated like 2017-10-30'''
         self.data=self.data[(self.data['datetime'] > startdate) & (self.data['datetime'] < enddate)] 
 
     def count_tweets_by_day(self):
         ''' This will return a dataframe with the date and the count of total tweets next to it'''
 
-        df = self.data['datetime'].dt.date.value_counts().reset_index().sort_values('index').reset_index(drop=True)
+        df = self.data['datetime'].dt.value_counts().reset_index().sort_values('index').reset_index(drop=True)
         colnames = df.columns.tolist()
         colnames = ['time','count']
         df.columns = colnames
