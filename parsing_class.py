@@ -81,6 +81,9 @@ class crypto_csv_tweets(object):
     def __init__(self,filename):
         self.data = pd.read_csv(filename, error_bad_lines=False)
         self.clean_data()
+
+    def reset_data(self):
+        self.data = pd.read_csv(filename, error_bad_lines=False)
         
     def clean_column_names(self):
         colnames = self.data.columns.tolist()
@@ -97,8 +100,14 @@ class crypto_csv_tweets(object):
 
     def date_filter(self,startdate,enddate):
         ''' Note: startdate and enddate must be a string and formated like 2018-01-10'''
+        self.data=self.data[(self.data['datetime'] > startdate) & (self.data['datetime'] < enddate)] 
 
-        return self.data[(self.data['datetime'] > startdate) & (self.data['datetime'] < enddate)]
+    def count_tweets_by_day(self):
+        df = self.data['datetime'].dt.date.value_counts().reset_index().sort_values('index').reset_index(drop=True)
+        colnames = df.columns.tolist()
+        colnames = ['time','count']
+        df.columns = colnames
+        return df
 
     def print_min_max_datetime(self):
         print(f"The oldest tweet is: {min(self.data['datetime'])}")
