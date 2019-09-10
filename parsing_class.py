@@ -53,16 +53,25 @@ class coinmarketcap_jsonfile(object):
                 i+=1
             else:
                 df=pd.merge(df,self.key_value_to_pd(key,value), on='time',how='left')
-        return df
+        self.data = df
+        return self.data
 
     def parse_time_data(self):
         ''' This will take in the dataframe created by mege_df_on_time and reformate the time
         column into a date time objects.'''
-        df = self.merge_df_on_time()
-        df['time'] = df['time'].apply(lambda x :datetime.fromtimestamp(int(int(x)/1000)))
-        return df
+        if isinstance(self.data, pd.DataFrame):
+            self.data['time'] = self.data['time'].apply(lambda x :datetime.fromtimestamp(int(int(x)/1000)))
+        else:
+            self.merge_df_on_time()
+            self.data['time'] = self.data['time'].apply(lambda x :datetime.fromtimestamp(int(int(x)/1000)))
+        return self.data
 
-class csv_tweetcleaner(object):
+    def print_min_max_datetime(self):
+        
+        print(f"The oldest tweet is: {min(self.data['time'])}")
+        print(f"The youngest tweet is: {max(self.data['time'])}")
+
+class crypto_csv_tweets(object):
 
     def __init__(self,filename):
         self.data = pd.read_csv(filename,error_bad_lines=False)
@@ -76,6 +85,10 @@ class csv_tweetcleaner(object):
 
     def create_datetime_objects(self):
         self.data['datetime'] = pd.to_datetime(self.data['datetime'])
+
+    def print_min_max_datetime(self):
+        print(f"The oldest tweet is: {min(self.data['datetime'])}")
+        print(f"The youngest tweet is: {max(self.data['datetime'])}")
 
 if __name__ == "__main__":
     pass
