@@ -74,7 +74,8 @@ class coinmarketcap_jsonfile(object):
     def date_filter(self,startdate,enddate):
         ''' Note: startdate and enddate must be a string and formated like 2017-10-30'''
 
-        self.data=self.data[(self.data['time'] > datetime.date(datetime.strptime(startdate, "%Y-%m-%d")))
+        self.data=self.data[
+            (self.data['time'] > datetime.date(datetime.strptime(startdate, "%Y-%m-%d")))
          & (self.data['time'] < datetime.date(datetime.strptime(enddate, "%Y-%m-%d")))]
 
     def reset_data(self):
@@ -114,7 +115,8 @@ class crypto_csv_tweets(object):
 
     def date_filter(self,startdate,enddate):
         ''' Note: startdate and enddate must be a string and formated like 2017-10-30'''
-        self.data=self.data[(self.data['datetime'] > datetime.date(datetime.strptime(startdate, "%Y-%m-%d")))
+        self.data=self.data[
+            (self.data['datetime'] > datetime.date(datetime.strptime(startdate, "%Y-%m-%d")))
          & (self.data['datetime'] < datetime.date(datetime.strptime(enddate, "%Y-%m-%d")))] 
 
     def count_tweets_by_day(self):
