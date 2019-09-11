@@ -73,7 +73,9 @@ class coinmarketcap_jsonfile(object):
 
     def date_filter(self,startdate,enddate):
         ''' Note: startdate and enddate must be a string and formated like 2017-10-30'''
-        self.data=self.data[(self.data['time'] > startdate) & (self.data['time'] < enddate)]
+
+        self.data=self.data[(self.data['time'] > datetime.date(datetime.strptime(startdate, "%Y-%m-%d")))
+         & (self.data['time'] < datetime.date(datetime.strptime(enddate, "%Y-%m-%d")))]
 
     def reset_data(self):
         '''Resets data to original state'''
@@ -83,8 +85,8 @@ class coinmarketcap_jsonfile(object):
 
     def print_min_max_datetime(self):
         
-        print(f"The oldest tweet is: {min(self.data['time'])}")
-        print(f"The youngest tweet is: {max(self.data['time'])}")
+        print(f"The oldest date is: {min(self.data['time'])}")
+        print(f"The youngest date is: {max(self.data['time'])}")
 
 class crypto_csv_tweets(object):
 
@@ -112,12 +114,13 @@ class crypto_csv_tweets(object):
 
     def date_filter(self,startdate,enddate):
         ''' Note: startdate and enddate must be a string and formated like 2017-10-30'''
-        self.data=self.data[(self.data['datetime'] > startdate) & (self.data['datetime'] < enddate)] 
+        self.data=self.data[(self.data['datetime'] > datetime.date(datetime.strptime(startdate, "%Y-%m-%d")))
+         & (self.data['datetime'] < datetime.date(datetime.strptime(enddate, "%Y-%m-%d")))] 
 
     def count_tweets_by_day(self):
         ''' This will return a dataframe with the date and the count of total tweets next to it'''
 
-        df = self.data['datetime'].dt.value_counts().reset_index().sort_values('index').reset_index(drop=True)
+        df = self.data['datetime'].value_counts().reset_index().sort_values('index').reset_index(drop=True)
         colnames = df.columns.tolist()
         colnames = ['time','count']
         df.columns = colnames
