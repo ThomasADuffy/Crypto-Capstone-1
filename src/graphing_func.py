@@ -1,12 +1,13 @@
 from parsing_class import *
 import matplotlib.pyplot as plt
 from pandas.plotting import scatter_matrix
+
 def tweet_matrix_df(df):
 
     '''This creates the dataframe with 
     just tweet metrics grouped by date'''
 
-    tweet_metrics = df.groupby('datetime')['retweets','replies','favorites','mentions']\
+    tweet_metrics = df.groupby('datetime')['retweets','replies','favorites']\
         .sum().reset_index().reset_index(drop=True)
     tweet_metrics.rename(columns={'datetime':'time'}, inplace=True)
 
@@ -14,14 +15,12 @@ def tweet_matrix_df(df):
     return tweet_metrics
 
 def merge_df_on_time(df1,df2):
+
+    ''' This function merges two df's on time'''
+
     return pd.merge(df1,df2, on='time',how='left').dropna()
-    ''' This function merges df on time'''
-    # ETH_graph_DF = pd.merge(eth.data,ETH_tweet_df_count, on='time',how='left').dropna()
-    # BTC_graph_DF = pd.merge(btc.data,BTC_tweet_df_count, on='time',how='left').dropna()
-    # ETH_graph_DF = pd.merge(ETH_graph_DF,ETH_tweet_metrics, on='time',how='left').dropna()
-    # BTC_graph_DF = pd.merge(BTC_graph_DF,BTC_tweet_metrics, on='time',how='left').dropna()
-    # ETH_graph_DF = merge_df_on_time(merge_df_on_time(eth.data,ETH_tweet_df_count),ETH_tweet_metrics)
-    # BTC_graph_DF = merge_df_on_time(merge_df_on_time(btc.data,BTC_tweet_df_count),BTC_tweet_metrics)
+   
+
 def get_count_df():
     ''' This function outputs two dataframes with the counts of tweets
     by day, twitter metrics totals associated, and the 
@@ -51,7 +50,7 @@ def avg_tweet_interaction(df):
     ''' This creates an avg tweet interaction
     metric which allows me to diagnose if interaction is going up
     by time'''
-    df['avg_tweet_interaction'] = (df['count'])/(df[['retweets','replies','favorites','mentions']]\
+    df['avg_tweet_interaction'] = (df['count'])/(df[['retweets','replies','favorites']]\
         .sum(axis = 1, skipna = True))
 
 def scatter_plot(df,xcolname,ycolname,color,title,xlabel,ylabel,corr,savefig):
@@ -79,7 +78,7 @@ def pandas_scatter_matrix(df,title,savefig=None):
     plt.savefig(savefig)
     plt.show()
 
-def tweet_vs_price_graph(df,title,savefig,datefilter=None):
+def tweet_vs_price_graph(df,title,savefig,datefilter=None,width=4):
     '''tweets vs price graph plot one figure.
     datefilter is just a list containing the startdate and enddate
     in a list like [startdate,endate]'''
@@ -93,20 +92,20 @@ def tweet_vs_price_graph(df,title,savefig,datefilter=None):
     max_time = max(df['time']).strftime('%m/%d/%Y')
     fig, ax1 = plt.subplots(figsize=(15,12))
 
-    color1 = 'green'
+    color1 = 'dodgerblue'
     ax1.set_xlabel('Time',fontsize = 16,weight='600')
-    ax1.plot(df['time'], df['price_usd_value'], color=color1, label=f'Price of {title}')
+    ax1.bar(df['time'], df['count'], color=color1, label=f'# of Tweets for {title}',align='center',width=width)
     ax1.tick_params(axis='y',labelsize=14,color=color1)
     ax1.tick_params(axis='x',labelsize=14)
-    ax1.set_ylabel('Price', color=color1,fontsize = 16,weight='600')
+    ax1.set_ylabel('Count of Tweets', color=color1,fontsize = 16,weight='600')
 
 
 
     ax2 = ax1.twinx() 
-    color2='dodgerblue'
-    ax2.plot(df['time'], df['count'], color=color2, label=f'# of Tweets for {title}')
+    color2='green'
+    ax2.plot(df['time'], df['price_usd_value'], color=color2, label=f'Price of {title}')
     ax2.tick_params(axis='y',labelsize=14,color=color1)
-    ax2.set_ylabel('Count of Tweets', color=color2,fontsize = 16,weight='600')
+    ax2.set_ylabel('Price', color=color2,fontsize = 16,weight='600')
     fig.legend(loc='upper right',fontsize = 14)
     fig.suptitle((f'From {min_time} to {max_time} '+title+' Tweet Counts vs Price'), fontsize=16,weight='bold')
     # fig.tight_layout()  # otherwise the right y-label is slightly clipped
@@ -168,13 +167,13 @@ def two_metrics_graph(df,dfname,col1,col2,savefig,datefilter=None):
     
     min_time = min(df['time']).strftime('%m/%d/%Y')
     max_time = max(df['time']).strftime('%m/%d/%Y')
-    fig, ax1 = plt.subplots(figsize=(20,14))
-    ax1.set_xlabel('Time',fontsize = 16,weight='600',labelpad=5)
+    fig, ax1 = plt.subplots(figsize=(16,11))
+    ax1.set_xlabel('Time',fontsize = 18,weight='600',labelpad=5)
     color1 = 'green'
     ax1.plot(df['time'], df[col1], color=color1, label=f'{col1.capitalize()} of {dfname}')
     ax1.tick_params(axis='y',labelsize=14,color=color1)
     ax1.tick_params(axis='x',labelsize=14)
-    ax1.set_ylabel(f'{col1.capitalize()}', color=color1,fontsize = 16,weight='600')
+    ax1.set_ylabel(f'{col1.capitalize()}', color=color1,fontsize = 18,weight='600')
 
 
 
@@ -182,10 +181,10 @@ def two_metrics_graph(df,dfname,col1,col2,savefig,datefilter=None):
     color2='blue'
     ax2.plot(df['time'], df[col2], color=color2, label=f'{col2.capitalize()} for {dfname}')
     ax2.tick_params(axis='y',labelsize=14,color=color2)
-    ax2.set_ylabel(f'{col2.capitalize()}', color=color2,fontsize = 16,weight='600')
+    ax2.set_ylabel(f'{col2.capitalize()}', color=color2,fontsize = 18,weight='600')
     fig.legend(loc='upper right',fontsize = 14)
-    fig.suptitle((f'From {min_time} to {max_time} '+ dfname +f' {col2.capitalize()} vs {col2.capitalize()}'),
-     fontsize=16,weight='bold')
+    fig.suptitle((f'From {min_time} to {max_time} '+ dfname +f' {col1.capitalize()} vs {col2.capitalize()}'),
+     fontsize=20,weight='bold',y=.91)
     # fig.tight_layout()  # otherwise the right y-label is slightly clipped
     plt.savefig(savefig)
     plt.show()
