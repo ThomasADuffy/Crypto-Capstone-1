@@ -1,10 +1,24 @@
 from parsing_class import *
 import matplotlib.pyplot as plt
 from pandas.plotting import scatter_matrix
+def tweet_matrix_df(df):
+
+    '''This creates the dataframe with 
+    just tweet metrics grouped by date'''
+
+    tweet_metrics = df.groupby('datetime')['retweets','replies','favorites','mentions']\
+        .sum().reset_index().reset_index(drop=True)
+    tweet_metrics.rename(columns={'datetime':'time'}, inplace=True)
+    
+    return tweet_metrics
+
 
 def get_count_df():
-    ''' This function outputs two dataframes with the counts merged with the 
-    btc graph for the dates which inculde both sets of data'''
+    ''' This function outputs two dataframes with the counts of tweets
+    by day, twitter metrics totals associated, and the 
+    btc financial data for the dates which inculde both sets of data.
+    it does this by merging those three dataframes together after creating
+    them.'''
 
     btc=coinmarketcap_jsonfile(f"/media/{getpass.getuser()}/data/Crypto-Capstone-1/data/Json/bitcoin.json")
     eth=coinmarketcap_jsonfile(f"/media/{getpass.getuser()}/data/Crypto-Capstone-1/data/Json/ethereum.json")
@@ -14,10 +28,14 @@ def get_count_df():
     eth.date_filter('2015-08-07','2018-02-09')
     ETHtweets.date_filter('2015-08-07','2018-02-09')
     BTCtweets.date_filter('2017-10-08','2018-02-09')
+    BTC_tweet_metrics = tweet_matrix_df(BTCtweets.data)
+    ETH_tweet_metrics = tweet_matrix_df(ETHtweets.data)
     BTC_tweet_df_count = BTCtweets.count_tweets_by_day()
     ETH_tweet_df_count = ETHtweets.count_tweets_by_day()
-    ETH_graph_DF=pd.merge(eth.data.copy(),ETH_tweet_df_count, on='time',how='left').dropna()
-    BTC_graph_DF=pd.merge(btc.data.copy(),BTC_tweet_df_count, on='time',how='left').dropna()
+    ETH_graph_DF = pd.merge(eth.data,ETH_tweet_df_count, on='time',how='left').dropna()
+    BTC_graph_DF = pd.merge(btc.data,BTC_tweet_df_count, on='time',how='left').dropna()
+    ETH_graph_DF = pd.merge(ETH_graph_DF,ETH_tweet_metrics, on='time',how='left').dropna()
+    BTC_graph_DF = pd.merge(BTC_graph_DF,BTC_tweet_metrics, on='time',how='left').dropna()
     return ETH_graph_DF,BTC_graph_DF
 
 def scatter_plot(df,xcolname,ycolname,color,title,xlabel,ylabel,corr,savefig):
