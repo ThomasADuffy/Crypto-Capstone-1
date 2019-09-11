@@ -33,10 +33,47 @@ def scatter_plot(df,xcolname,ycolname,color,title,xlabel,ylabel,corr,savefig):
     plt.show()
 
 def pandas_scatter_matrix(df,title,savefig=None):
+
+    '''This plots a scatter matrix'''
+
     scatter_matrix_temp=scatter_matrix(df,figsize = (15,12))
     plt.suptitle(title,weight='bold',fontsize = 20)
     for ax in scatter_matrix_temp.ravel():
         ax.set_xlabel(ax.get_xlabel(), fontsize = 14,weight='600', rotation = -10,y=-100)
         ax.set_ylabel(ax.get_ylabel(), fontsize = 14,weight='600', rotation =90,x=-100)
+    plt.savefig(savefig)
+    plt.show()
+
+def tweet_vs_price_graph(df,title,savefig,datefilter=None):
+    '''tweets vs price graph plot one figure.
+    datefilter is just a list containing the startdate and enddate
+    in a list like [startdate,endate]'''
+
+    if datefilter:
+        df=df[
+            (df['time'] > datetime.date(datetime.strptime(datefilter[0], "%Y-%m-%d")))
+         & (df['time'] < datetime.date(datetime.strptime(datefilter[1], "%Y-%m-%d")))]
+    
+    min_time = min(df['time']).strftime('%m/%d/%Y')
+    max_time = max(df['time']).strftime('%m/%d/%Y')
+    fig, ax1 = plt.subplots(figsize=(15,12))
+
+    color1 = 'green'
+    ax1.set_xlabel('Time',fontsize = 16,weight='600')
+    ax1.plot(df['time'], df['price_usd_value'], color=color1, label=f'Price of {title}')
+    ax1.tick_params(axis='y',labelsize=14,color=color1)
+    ax1.tick_params(axis='x',labelsize=14)
+    ax1.set_ylabel('Price', color=color1,fontsize = 16,weight='600')
+
+
+
+    ax2 = ax1.twinx() 
+    color2='dodgerblue'
+    ax2.plot(df['time'], df['count'], color=color2, label=f'# of Tweets for {title}')
+    ax2.tick_params(axis='y',labelsize=14,color=color1)
+    ax2.set_ylabel('Count of Tweets', color=color2,fontsize = 16,weight='600')
+    fig.legend(loc='upper right',fontsize = 14)
+    fig.suptitle((f'From {min_time} to {max_time} '+title+' Tweet Counts vs Price'), fontsize=16,weight='bold')
+    # fig.tight_layout()  # otherwise the right y-label is slightly clipped
     plt.savefig(savefig)
     plt.show()
