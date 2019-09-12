@@ -95,11 +95,33 @@ After creating these class's I started to load in the data and one aspect I noti
 
 Therefor I found another dataset which contained the counts of tweets per hour for a larger time frame and was more consistant and utilized that for my bitcoin twitter data. The dataset was from kaggle and had the count for tweets per hour which contained bitcoin. since it was a csv, I was able to utlize the class I already had which made importing and cleaning it extremely easy. All I had to do for this data set was a groupy by and sum the counts so I could get a count by day.
 
-The datasets used also had a very diffrent date range between the two coins. The dates for the financial data of the coins spaned from the start of coinmarketcap keeping track of the coin to 02/09/2018. Therefor I didnt really have any issue with the date range. The only parameter which restricted my dates was the range of time which the twitter data covered.  For Ethereum the  date range was from 08/07/2015 - 02/09/2018 for both data sets. With Bitcion the tweets only went as far back as 08/01/2017 - 02/09/2018  so it was a much shorter time frame.
+The datasets used also had a very diffrent date range between the two coins. The dates for the financial data of the coins spaned from the start of coinmarketcap keeping track of the coin to 02/09/2018. Therefor I didnt really have any issue with the date range. The only parameter which restricted my dates was the range of time which the twitter data covered.  For Ethereum the  date range was from 08/07/2015 - 02/09/2018 for both data sets. With Bitcion the tweets only went as far back as 08/01/2017 - 02/09/2018  so it was a much shorter time frame.  
 
 The two EDA notebooks can be found [here.](https://github.com/ThomasADuffy/Crypto-Capstone-1/tree/master/notebooks)
 # **Visualization**
-After wrestling with the data, I was finally able to get it into a formate which I liked and was able to start plotting. I created a file called 
+After wrestling with the data, I was finally able to get it into a formate which I liked and was able to start plotting. I created a file called graphing_func that contained functions to graph plots which I thought would show a good representation of what I wanted to find.  
+
+First I created Scatter matrix for both of the coins  
+
+![ETH Scatter matrix][ETH_scatter_matrix]
+
+[ETH_scatter_matrix]:https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/graphs/ETH_scatter_matrix.png  
+
+![BTC Scatter matrix][BTC_scatter_matrix]
+
+[BTC_scatter_matrix]:https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/graphs/newBTC_scatter_matrix.png  
+
+Afterwards I saw a clear correlation between both tweets count and price so I decided to make actual scatter plots with regression lines for both also.I also created a correlation metrics between the two columns, price and count by utilzing the numpy.polynomial.polyfit module.  
+
+![ETH Scatter plot][ETH_scatter_plot]
+
+[ETH_scatter_plot]:https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/graphs/ETH_scatter_plot.png
+
+![BTC Scatter plot][BTC_scatter_plot]
+
+[BTC_scatter_plot]:https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/graphs/newBTC_scatter_plot.png  
+
+
 # **Photo and Data Credits/Sources**
 ## Picture sources
 Title picture: https://www.reviewgeek.com/3603/best-bitcoin-and-cryptocurrency-price-tracking-apps/ 
