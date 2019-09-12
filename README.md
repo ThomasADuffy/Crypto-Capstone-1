@@ -33,7 +33,7 @@ In the data I have collected I will be looking for a correlation between social 
 mentions/metrics and the price/volume of two cryptocurrencies. I will be focusing on Bitcoin and
 Ethereum as those are the two coins I have collected sufficient data for proper analysis.
 I'm using two Datasets. One data set contained raw json file data for all of the prices of all cryptocurrencies but in order to work with my twitter data set, I will only be using the Ethereum and Bitcion json files for financial data. The twitter dataset is actually very clean so minor manipulations were needed to get a dataframe representing truely what I wanted. One issue I ran into was the twitter data for Bitcoin from my original data setwas very non consistant and had many inconsistencies by date. Therefor I had to find another dataset for tweets for bitcoin which I ended up utilzing. I will go into this further in the [EDA Section.](#eda-and-cleaning-of-data)  
-![Bitcoin](https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/imgs/BTC_Logo.png) ![Ethereum](https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/imgs/ETH_logo.png=256x256)
+![Bitcoin](https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/imgs/BTC_Logo.png) <img src="https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/imgs/ETH_logo.png" height="256">
 
 
 # **Initial Question and Assumptions**
