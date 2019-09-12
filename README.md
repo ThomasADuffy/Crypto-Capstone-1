@@ -3,7 +3,6 @@
 ![Title pic][title_pic]
 
 [title_pic]:https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/imgs/Title-image.jpg
-<!-- toc -->
 # **Table of Contents** <!-- omit in toc -->
 - [**Introduction**](#introduction)
 - [**What's the data?**](#whats-the-data)
@@ -33,8 +32,8 @@ hypothesis is the value has been socially constructed and does not represent its
 In the data I have collected I will be looking for a correlation between social media(focusing on twitter data)
 mentions/metrics and the price/volume of two cryptocurrencies. I will be focusing on Bitcoin and
 Ethereum as those are the two coins I have collected sufficient data for proper analysis.
-I'm using two Datasets. One data set contained raw json file data for all of the prices of all cryptocurrencies but in order to work with my twitter data set, I will only be using the Ethereum and Bitcion json files for financial data. The twitter dataset is actually very clean so minor manipulations were needed to get a dataframe representing truely what I wanted. One issue I ran into was the twitter data for Bitcoin from my original data setwas very non consistant and had many inconsistencies by date. Therefor I had to find another dataset for tweets for bitcoin which I ended up utilzing. I will go into this further in the [EDA Section.](#eda-and-cleaning-of-data)
-| [![Bitcoin](https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/imgs/BTC_Logo.png)]  | [![Ethereum](https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/imgs/ETH_logo.png)] |
+I'm using two Datasets. One data set contained raw json file data for all of the prices of all cryptocurrencies but in order to work with my twitter data set, I will only be using the Ethereum and Bitcion json files for financial data. The twitter dataset is actually very clean so minor manipulations were needed to get a dataframe representing truely what I wanted. One issue I ran into was the twitter data for Bitcoin from my original data setwas very non consistant and had many inconsistencies by date. Therefor I had to find another dataset for tweets for bitcoin which I ended up utilzing. I will go into this further in the [EDA Section.](#eda-and-cleaning-of-data)  
+[![Bitcoin](https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/imgs/BTC_Logo.png)][![Ethereum](https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/imgs/ETH_logo.png)]
 
 
 # **Initial Question and Assumptions**
@@ -137,6 +136,8 @@ In order to see if I could see more of a correlation, I ploted the count vs the 
 
 I created alot more graphs which you can look at [here.](https://github.com/ThomasADuffy/Crypto-Capstone-1/tree/master/graphs). This includes graphs I created with the bad set of Bitcoin data and also more graphs surrounding the Ethereum twitter metrics.
 # **Analysis and Conclusion**
+
+From the graphs above I concluded there is an absolute correlation between the two, especially with Ethereum. These cryptocurrencies which are not bitcoin are colloquially referred to as "altcoins". Though during the date range I had, the big boom happend where Bitcoin went up to 17K and gained international attention within 30 days. af
 # **Photo and Data Credits/Sources**
 ## Picture sources
 Title picture: https://www.reviewgeek.com/3603/best-bitcoin-and-cryptocurrency-price-tracking-apps/ 
