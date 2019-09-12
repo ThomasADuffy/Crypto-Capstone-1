@@ -1,6 +1,7 @@
 from parsing_class import *
 import matplotlib.pyplot as plt
 from pandas.plotting import scatter_matrix
+from numpy.polynomial.polynomial import polyfit
 
 def tweet_matrix_df(df):
 
@@ -67,6 +68,8 @@ def scatter_plot(df,xcolname,ycolname,color,title,xlabel,ylabel,corr,savefig):
     plt.xlabel(xlabel,fontsize = 16,weight='600')
     plt.ylabel(ylabel,fontsize = 16,weight='600')
     plt.text(x, y, f'Correlation:{corr}',ha='center', fontsize=14,weight='bold',c='red')
+    b, m = polyfit(df[xcolname], df[ycolname], 1)
+    plt.plot(df[xcolname], b + m * df[xcolname], '-')
     plt.savefig(savefig)
     plt.show()
 
