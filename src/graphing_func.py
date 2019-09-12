@@ -17,13 +17,14 @@ def tweet_matrix_df(df):
 
 def merge_df_on_time(df1,df2):
 
-    ''' This function merges two df's on time'''
+    ''' This function merges two df's on the column time'''
 
     return pd.merge(df1,df2, on='time',how='left').dropna()
    
 
 def get_count_df():
-    ''' This function outputs two dataframes with the counts of tweets
+    
+    ''' This function outputs dataframes with the counts of tweets
     by day, twitter metrics totals associated, and the 
     btc financial data for the dates which inculde both sets of data.
     it does this by merging those three dataframes together after creating
