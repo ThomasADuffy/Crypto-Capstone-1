@@ -25,6 +25,7 @@ class coinmarketcap_jsonfile(object):
             print(value)
 
     def key_value_to_pd(self,key,value):
+        
         ''' This will take the values and turn this into a pandas dataframe
         Input
         -------
@@ -38,6 +39,7 @@ class coinmarketcap_jsonfile(object):
         return pd.DataFrame.from_dict({"time":lst1,f"{key}_value":lst2})
 
     def merge_df_on_time(self):
+
         ''' This function takes the values and keys associated with the json file
         and returns a dataframe joined on the time column,
         it does this by if it is the first iteration in the for loop it will instantiate the data frame,
@@ -58,6 +60,7 @@ class coinmarketcap_jsonfile(object):
         self.data = df
 
     def parse_time_data(self):
+
         ''' This will take in the dataframe created by mege_df_on_time and reformate the time
         column into a date time objects.'''
 
@@ -66,12 +69,14 @@ class coinmarketcap_jsonfile(object):
         
 
     def clean_data(self):
+
         '''This runs all of the cleaning functions in this class.'''
 
         self.merge_df_on_time()
         self.parse_time_data()
 
     def date_filter(self,startdate,enddate):
+
         ''' Note: startdate and enddate must be a string and formated like 2017-10-30'''
 
         self.data=self.data[
@@ -79,6 +84,7 @@ class coinmarketcap_jsonfile(object):
          & (self.data['time'] < datetime.date(datetime.strptime(enddate, "%Y-%m-%d")))]
 
     def reset_data(self):
+
         '''Resets data to original state'''
 
         with open(self.filename) as file:
@@ -109,24 +115,36 @@ class crypto_csv_tweets(object):
         self.data['datetime'] = self.data['datetime'].dt.date
 
     def clean_data(self):
+
         ''' This just runs both of the functions to clean the data'''
+
         self.clean_column_names()
         self.create_datetime_objects()
 
     def date_filter(self,startdate,enddate):
+
         ''' Note: startdate and enddate must be a string and formated like 2017-10-30'''
+
         self.data=self.data[
             (self.data['datetime'] > datetime.date(datetime.strptime(startdate, "%Y-%m-%d")))
          & (self.data['datetime'] < datetime.date(datetime.strptime(enddate, "%Y-%m-%d")))] 
 
     def count_tweets_by_day(self):
-        ''' This will return a dataframe with the date and the count of total tweets next to it'''
+        ''' This will return a dataframe with the date and the count of total tweets next to it.
+        The if else statement is for the two types of csv's used.'''
 
-        df = self.data['datetime'].value_counts().reset_index().sort_values('index').reset_index(drop=True)
-        colnames = df.columns.tolist()
-        colnames = ['time','count']
-        df.columns = colnames
-        return df
+        if 'total_volume_of_tweets' in self.data.columns.tolist():
+            df = self.data.groupby('datetime')['total_volume_of_tweets'].sum().reset_index()
+            colnames = df.columns.tolist()
+            colnames = ['time','count']
+            df.columns = colnames
+            return df
+        else:
+            df = self.data['datetime'].value_counts().reset_index().sort_values('index').reset_index(drop=True)
+            colnames = df.columns.tolist()
+            colnames = ['time','count']
+            df.columns = colnames
+            return df
 
     def print_min_max_datetime(self):
         print(f"The oldest tweet is: {min(self.data['datetime'])}")

@@ -27,24 +27,29 @@ def get_count_df():
     btc financial data for the dates which inculde both sets of data.
     it does this by merging those three dataframes together after creating
     them.'''
-
+    
     btc=coinmarketcap_jsonfile(f"/media/{getpass.getuser()}/data/Crypto-Capstone-1/data/Json/bitcoin.json")
+    btc_copy = coinmarketcap_jsonfile(f"/media/{getpass.getuser()}/data/Crypto-Capstone-1/data/Json/bitcoin.json")
     eth=coinmarketcap_jsonfile(f"/media/{getpass.getuser()}/data/Crypto-Capstone-1/data/Json/ethereum.json")
     ETHtweets =  crypto_csv_tweets(f"/media/{getpass.getuser()}/data/Crypto-Capstone-1/data/ETH-tweets/ETHtweets.csv")
-    BTCtweets = crypto_csv_tweets(f"/media/{getpass.getuser()}/data/Crypto-Capstone-1/data/BTC-tweets/BTC.csv")
+    BTColdtweets = crypto_csv_tweets(f"/media/{getpass.getuser()}/data/Crypto-Capstone-1/data/BTC-tweets/BTC.csv")
+    BTCnewtweets = crypto_csv_tweets(f"/media/{getpass.getuser()}/data/Crypto-Capstone-1/data/df_Final.csv")
+    btc_copy.date_filter('2017-08-01','2018-02-09')
     btc.date_filter('2017-10-08','2018-02-09')
     eth.date_filter('2015-08-07','2018-02-09')
     ETHtweets.date_filter('2015-08-07','2018-02-09')
-    BTCtweets.date_filter('2017-10-08','2018-02-09')
-    BTC_tweet_metrics = tweet_matrix_df(BTCtweets.data)
+    BTColdtweets.date_filter('2017-10-08','2018-02-09')
+    BTCold_tweet_metrics = tweet_matrix_df(BTColdtweets.data)
     ETH_tweet_metrics = tweet_matrix_df(ETHtweets.data)
-    BTC_tweet_df_count = BTCtweets.count_tweets_by_day()
+    BTCold_tweet_df_count = BTColdtweets.count_tweets_by_day()
     ETH_tweet_df_count = ETHtweets.count_tweets_by_day()
+    BTCnew_tweet_df_count = BTCnewtweets.count_tweets_by_day()
+    BTCnew_graph_DF = merge_df_on_time(btc_copy.data, BTCnew_tweet_df_count)
     ETH_graph_DF = merge_df_on_time(merge_df_on_time(eth.data,ETH_tweet_df_count),ETH_tweet_metrics)
-    BTC_graph_DF = merge_df_on_time(merge_df_on_time(btc.data,BTC_tweet_df_count),BTC_tweet_metrics)
-    BTC_graph_DF.rename(columns={'market_cap_by_available_supply_value':'market_cap'}, inplace=True)
+    BTCold_graph_DF = merge_df_on_time(merge_df_on_time(btc.data,BTCold_tweet_df_count),BTCold_tweet_metrics)
+    BTCold_graph_DF.rename(columns={'market_cap_by_available_supply_value':'market_cap'}, inplace=True)
     ETH_graph_DF.rename(columns={'market_cap_by_available_supply_value':'market_cap'}, inplace=True)
-    return ETH_graph_DF,BTC_graph_DF
+    return ETH_graph_DF,BTCold_graph_DF,BTCnew_graph_DF
 
 def avg_tweet_interaction(df):
     ''' This creates an avg tweet interaction
