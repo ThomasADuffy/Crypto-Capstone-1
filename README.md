@@ -99,7 +99,7 @@ The datasets used also had a very diffrent date range between the two coins. The
 
 The two EDA notebooks can be found [here.](https://github.com/ThomasADuffy/Crypto-Capstone-1/tree/master/notebooks)
 # **Visualization**
-After wrestling with the data, I was finally able to get it into a formate which I liked and was able to start plotting. I created a file called graphing_func that contained functions to graph plots which I thought would show a good representation of what I wanted to find.  
+After wrestling with the data, I was finally able to get it into a formate which I liked and was able to start plotting. I created a file called graphing_class that contained functions and a class to graph plots which I thought would show a good representation of what I wanted to find.  
 
 First I created Scatter matrix for both of the coins  
 
@@ -120,6 +120,16 @@ Afterwards I saw a clear correlation between both tweets count and price so I de
 ![BTC Scatter plot][BTC_scatter_plot]
 
 [BTC_scatter_plot]:https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/graphs/newBTC_scatter_plot.png  
+
+In order to see if I could see more of a correlation, I ploted the count vs the price on a same graph which gave me these results.  
+
+![ETH line bar][ETH_line_bar]
+
+[ETH_line_bar]:https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/graphs/ETH_price_vs_tweets_linegraph.png  
+
+![BTC line bar][BTC_line_bar]
+
+[BTC_line_bar]:https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/graphs/newBTC_price_vs_tweets_linegraph_bar.png  
 
 
 # **Photo and Data Credits/Sources**
