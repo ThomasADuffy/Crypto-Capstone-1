@@ -1,4 +1,4 @@
-# **Crypto-Captstone-1** <!-- omit in toc -->
+# **An Analysis of Social Media Infuence on Cryptocurrency** <!-- omit in toc -->
 ### A study of the correlation between cryptocurrency tweets and price<!-- omit in toc -->  
 ![Title pic][title_pic]
 
