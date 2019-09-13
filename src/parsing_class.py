@@ -9,7 +9,8 @@ from datetime import datetime
 class coinmarketcap_jsonfile(object):
 
     def __init__(self,filename):
-        self.filename=filename
+
+        self.filename = filename
         with open(filename) as file:
             self.data = json.load(file)
         self.keys = list(self.data.keys())
@@ -17,10 +18,12 @@ class coinmarketcap_jsonfile(object):
         self.clean_data()
 
     def print_keys(self):
+        
         for key in self.keys:
             print(key)
 
     def print_values(self):
+
         for value in self.values:
             print(value)
 
@@ -49,14 +52,14 @@ class coinmarketcap_jsonfile(object):
          -------
          df - a dataframe of all the values joined on the time metric.'''
 
-        i=0
+        i = 0
         for key,value in self.data.items():
             
-            if i==0:
+            if i == 0:
                 df = self.key_value_to_pd(key,value)
-                i+=1
+                i += 1
             else:
-                df=pd.merge(df,self.key_value_to_pd(key,value), on='time',how='left')
+                df = pd.merge(df,self.key_value_to_pd(key,value), on='time',how='left')
         self.data = df
 
     def parse_time_data(self):
@@ -79,7 +82,7 @@ class coinmarketcap_jsonfile(object):
 
         ''' Note: startdate and enddate must be a string and formated like 2017-10-30'''
 
-        self.data=self.data[
+        self.data = self.data[
             (self.data['time'] > datetime.date(datetime.strptime(startdate, "%Y-%m-%d")))
          & (self.data['time'] < datetime.date(datetime.strptime(enddate, "%Y-%m-%d")))]
 
@@ -98,7 +101,7 @@ class coinmarketcap_jsonfile(object):
 class crypto_csv_tweets(object):
 
     def __init__(self,filename):
-        self.filename=filename
+        self.filename = filename
         self.data = pd.read_csv(filename, error_bad_lines=False)
         self.clean_data()
 
