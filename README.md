@@ -104,7 +104,7 @@ The datasets used also had a very diffrent date range between the two coins. The
 
 The two EDA notebooks can be found [here.](https://github.com/ThomasADuffy/Crypto-Capstone-1/tree/master/notebooks)
 # **Visualization**
-After wrestling with the data, I was finally able to get it into a formate which I liked and was able to start plotting. I created a file called graphing_class that contained functions and a class to graph plots which I thought would show a good representation of what I wanted to find. You can view the graphing file which contains the class [here.](https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/src/graphing_class.py)  
+After utilzing my classes with the data, I was finally able to get it into a format which was usable I liked and was able to start plotting. I created a file called graphing_class that contained functions and a class to graph plots which I thought would show a good representation of what I wanted to find. I ended up running all of my graphing out of a jupter note book in order to make it alot more seemless(you can look at the notebook [here](https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/notebooks/graphing_notebook.ipynb)). You can view the graphing python file which contains the class and functions [here.](https://github.com/ThomasADuffy/Crypto-Capstone-1/blob/master/src/graphing_class.py)  
 
 First I created Scatter matrix for both of the coins  
 
