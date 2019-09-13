@@ -70,7 +70,8 @@ class Graphingclass(object):
         self.data['avg_tweet_interaction'] = (self.data['count'])/(self.data[['retweets','replies','favorites']]\
             .sum(axis = 1, skipna = True))
 
-    def scatter_plot(self,xcolname,ycolname,color,title,xlabel,ylabel,corr,savefig):
+    def scatter_plot(self,xcolname,ycolname,color,title,xlabel,ylabel
+    ,correlation,savefigname):
 
         x=int(max(self.data[xcolname]))/2
         y=int(min(self.data[ycolname]))-(int(min(self.data[ycolname]))/8)
@@ -82,16 +83,16 @@ class Graphingclass(object):
         plt.title(title,fontsize = 18,weight='600')
         plt.xlabel(xlabel,fontsize = 16,weight='600')
         plt.ylabel(ylabel,fontsize = 16,weight='600')
-        plt.text(x, y, f'Correlation:{corr}',ha='center', fontsize=14
+        plt.text(x, y, f'Correlation:{correlation}',ha='center', fontsize=14
                 ,weight='bold',c='red')
 
         b, m = polyfit(self.data[xcolname], self.data[ycolname], 1)
         plt.plot(self.data[xcolname], b + m * self.data[xcolname], '-')
 
-        plt.savefig(savefig)
+        plt.savefig(savefigname)
         plt.show()
 
-    def pandas_scatter_matrix(self,title,savefig=None):
+    def pandas_scatter_matrix(self,title,savefigname):
 
         '''This plots a scatter matrix'''
 
@@ -107,10 +108,10 @@ class Graphingclass(object):
                             , rotation = 55,labelpad=50)
             ax.tick_params(axis='both',labelsize=13)
 
-        plt.savefig(savefig)
+        plt.savefig(savefigname)
         plt.show()
 
-    def tweet_vs_price_graph(self,title,savefig,datefilter=None,width=4):
+    def tweet_vs_price_graph(self,title,savefigname,datefilter=None,width=4):
 
         '''tweets vs price graph plot one figure.
         datefilter is just a list containing the startdate and enddate
@@ -158,10 +159,10 @@ class Graphingclass(object):
         fig.suptitle((f'From {min_time} to {max_time} '+title
                     +' Tweet Counts vs Price'), fontsize=16,weight='bold')
 
-        plt.savefig(savefig)
+        plt.savefig(savefigname)
         plt.show()
 
-    def tweet_metrics_graph(self,title,savefig,datefilter=None):
+    def tweet_metrics_graph(self,title,savefigname,datefilter=None):
 
         '''All the twitter metrics graph plot one figure.
         datefilter is just a list containing the startdate and enddate
@@ -220,10 +221,10 @@ class Graphingclass(object):
         fig.suptitle((f'From {min_time} to {max_time} '+title+' Twitter Metrics')
                     , weight='bold',fontsize = 24,y=.91)
 
-        plt.savefig(savefig)
+        plt.savefig(savefigname)
         plt.show()
 
-    def two_metrics_graph(self,dfname,col1,col2,savefig,datefilter=None):
+    def two_metrics_graph(self,dfname,col1,col2,savefigname,datefilter=None):
 
         '''Any two metrics on one graph plot one figure.
         datefilter is just a list containing the startdate and enddate
@@ -273,7 +274,7 @@ class Graphingclass(object):
                     f' {col1.capitalize()} vs {col2.capitalize()}'),
         fontsize=20,weight='bold',y=.91)
 
-        plt.savefig(savefig)
+        plt.savefig(savefigname)
         plt.show()
 
 if __name__ == "__main__":

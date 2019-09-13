@@ -8,6 +8,9 @@ from datetime import datetime
 
 class coinmarketcap_jsonfile(object):
 
+    '''This class is for the json files, it reads in a json file and 
+    puts it into a pandas dataframe format to be able to do analysis on'''
+
     def __init__(self,filename):
 
         self.filename = filename
@@ -45,8 +48,9 @@ class coinmarketcap_jsonfile(object):
 
         ''' This function takes the values and keys associated with the json file
         and returns a dataframe joined on the time column,
-        it does this by if it is the first iteration in the for loop it will instantiate the data frame,
-        then every iteration after that, it will merge it on time with the other values.
+        it does this by if it is the first iteration in the for loop it will 
+        instantiate the data frame,then every iteration after that, it will 
+        merge it on time with the other values.
 
          Return
          -------
@@ -60,12 +64,13 @@ class coinmarketcap_jsonfile(object):
                 i += 1
             else:
                 df = pd.merge(df,self.key_value_to_pd(key,value), on='time',how='left')
+
         self.data = df
 
     def parse_time_data(self):
 
-        ''' This will take in the dataframe created by mege_df_on_time and reformate the time
-        column into a date time objects.'''
+        ''' This will take in the dataframe created by mege_df_on_time and 
+        reformate the time column into a date time objects.'''
 
         self.data['time'] = self.data['time'].apply(lambda x :datetime.fromtimestamp((int(int(x)/1000))))
         self.data['time'] = self.data['time'].dt.date
@@ -99,6 +104,8 @@ class coinmarketcap_jsonfile(object):
         print(f"The youngest date is: {max(self.data['time'])}")
 
 class crypto_csv_tweets(object):
+    '''This class is for the csv files, it reads in a csv file and 
+    puts it into a pandas dataframe format to be able to do analysis on'''
 
     def __init__(self,filename):
         self.filename = filename
@@ -106,14 +113,23 @@ class crypto_csv_tweets(object):
         self.clean_data()
 
     def reset_data(self):
+        
+        ''' this resets the data to the original state'''
+
         self.data = pd.read_csv(self.filename, error_bad_lines=False)
         
     def clean_column_names(self):
+
+        '''This cleans all of the columns names to be easily used'''
+
         colnames = self.data.columns.tolist()
         colnames = [col.lower().strip().replace(' ', '_') for col in colnames]
         self.data.columns = colnames
 
     def create_datetime_objects(self):
+
+        '''This sets creates the date time objects in the corresponding column'''
+
         self.data['datetime'] = pd.to_datetime(self.data['datetime'])
         self.data['datetime'] = self.data['datetime'].dt.date
 
@@ -128,7 +144,7 @@ class crypto_csv_tweets(object):
 
         ''' Note: startdate and enddate must be a string and formated like 2017-10-30'''
 
-        self.data=self.data[
+        self.data = self.data[
             (self.data['datetime'] > datetime.date(datetime.strptime(startdate, "%Y-%m-%d")))
          & (self.data['datetime'] < datetime.date(datetime.strptime(enddate, "%Y-%m-%d")))] 
 
@@ -137,12 +153,15 @@ class crypto_csv_tweets(object):
         The if else statement is for the two types of csv's used.'''
 
         if 'total_volume_of_tweets' in self.data.columns.tolist():
+
             df = self.data.groupby('datetime')['total_volume_of_tweets'].sum().reset_index()
             colnames = df.columns.tolist()
             colnames = ['time','count']
             df.columns = colnames
             return df
+
         else:
+
             df = self.data['datetime'].value_counts().reset_index().sort_values('index').reset_index(drop=True)
             colnames = df.columns.tolist()
             colnames = ['time','count']
