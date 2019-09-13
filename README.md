@@ -10,6 +10,7 @@
 - [**EDA and Cleaning of Data**](#eda-and-cleaning-of-data)
 - [**Visualization**](#visualization)
 - [**Analysis and Conclusion**](#analysis-and-conclusion)
+- [**Moving Forward**](#moving-forward)
 - [**Photo and Data Credits/Sources**](#photo-and-data-creditssources)
   - [Picture sources](#picture-sources)
   - [Datasets sources](#datasets-sources)
@@ -136,8 +137,14 @@ In order to see if I could see more of a correlation, I ploted the count vs the 
 
 I created alot more graphs which you can look at [here.](https://github.com/ThomasADuffy/Crypto-Capstone-1/tree/master/graphs). This includes graphs I created with the bad set of Bitcoin data and also more graphs surrounding the Ethereum twitter metrics.
 # **Analysis and Conclusion**
+From the scatter matrix's you can see a clear correlation between count and price. Also there is a pretty strong correlation with market cap and the count.This could be due to more tweets corresponds to more players getting into the market there for expanding the market cap. The scatter plots with line regressions really show the positive correlation and vizulize how they are related. The Count by price graphs is an even better vizualization of the data as it shows how closly the counts mimic the movement of the actual price. Now this can be infered in two ways though, did price move due to the number of tweets or did the tweets move due to the price. from the data it is hard to tell because it seems almost simultaniously. This partially could be due to markets being open 24/7 and trades being instantanous without restriction.
 
-From the graphs above I concluded there is an absolute correlation between the two, especially with Ethereum. These cryptocurrencies which are not bitcoin are colloquially referred to as "altcoins". Though during the date range I had, the big boom happend where Bitcoin went up to 17K and gained international attention within 30 days. af
+From the information presented above, I concluded there is an correlation between the two, especially with Ethereum. These cryptocurrencies which are not bitcoin are colloquially referred to as "altcoins". Though during the date range I had, the big boom happend where Bitcoin went up to 17K within 30 daysand gained international attention. I beleive that this boom and crash gained the attention of bigger players which is shaping the current market today. From personal experience in trading these coins I found that alot of what happens in the cryptocurrency market did not follow general financial markets trends. The volatility of the market is so much higher so seeing this correlation of social media between coins and something like twitter is very intresting.
+
+
+
+# **Moving Forward**
+Moving forward with this project I woud definintely incorporate NLP as one statistic to see if sentiment does have any affect and also I would like to create a sort of traction metric from retweets,likes and replys. Also other social media platforms and news publications must have an effect on the market also if there is a correlation with just twitter so analyzing them would also be ideal. I also would have liked to create some sort of trading recomender based off of tweets inputted to truely see the functionally of this at work.
 # **Photo and Data Credits/Sources**
 ## Picture sources
 Title picture: https://www.reviewgeek.com/3603/best-bitcoin-and-cryptocurrency-price-tracking-apps/ 
