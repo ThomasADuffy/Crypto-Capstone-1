@@ -6,12 +6,13 @@ import numpy as np
 import pandas as pd
 from datetime import datetime
 
+
 class coinmarketcap_jsonfile(object):
 
     '''This class is for the json files, it reads in a json file and 
     puts it into a pandas dataframe format to be able to do analysis on'''
 
-    def __init__(self,filename):
+    def __init__(self, filename):
 
         self.filename = filename
         with open(filename) as file:
@@ -20,8 +21,7 @@ class coinmarketcap_jsonfile(object):
         self.values= list(self.data.values())
         self.clean_data()
 
-    def print_keys(self):
-        
+    def print_keys(self):        
         for key in self.keys:
             print(key)
 
@@ -30,8 +30,7 @@ class coinmarketcap_jsonfile(object):
         for value in self.values:
             print(value)
 
-    def key_value_to_pd(self,key,value):
-        
+    def key_value_to_pd(self, key, value):
         ''' This will take the values and turn this into a pandas dataframe
         Input
         -------
@@ -41,8 +40,8 @@ class coinmarketcap_jsonfile(object):
         -------
         df - A pandas dataframe corresponding to those with time split out'''
 
-        lst1,lst2 = zip(*value)
-        return pd.DataFrame.from_dict({"time":lst1,f"{key}_value":lst2})
+        lst1, lst2 = zip(*value)
+        return pd.DataFrame.from_dict({"time": lst1, f"{key}_value": lst2})
 
     def merge_df_on_time(self):
 
@@ -57,24 +56,24 @@ class coinmarketcap_jsonfile(object):
          df - a dataframe of all the values joined on the time metric.'''
 
         i = 0
-        for key,value in self.data.items():
-            
+        for key, value in self.data.items():
             if i == 0:
-                df = self.key_value_to_pd(key,value)
+                df = self.key_value_to_pd(key, value)
                 i += 1
             else:
-                df = pd.merge(df,self.key_value_to_pd(key,value), on='time',how='left')
+                df = pd.merge(df, self.key_value_to_pd(key, value), on='time'
+                                , how='left')
 
         self.data = df
 
     def parse_time_data(self):
 
-        ''' This will take in the dataframe created by mege_df_on_time and 
+        ''' This will take in the dataframe created by merge_df_on_time and 
         reformate the time column into a date time objects.'''
 
-        self.data['time'] = self.data['time'].apply(lambda x :datetime.fromtimestamp((int(int(x)/1000))))
+        self.data['time'] = self.data['time'].apply(lambda x: datetime\
+                                            .fromtimestamp((int(int(x)/1000))))
         self.data['time'] = self.data['time'].dt.date
-        
 
     def clean_data(self):
 
@@ -83,13 +82,14 @@ class coinmarketcap_jsonfile(object):
         self.merge_df_on_time()
         self.parse_time_data()
 
-    def date_filter(self,startdate,enddate):
+    def date_filter(self, startdate, enddate):
 
-        ''' Note: startdate and enddate must be a string and formated like 2017-10-30'''
+        ''' Note: startdate and enddate must be a string and formated like 
+            2017-10-30'''
 
         self.data = self.data[
             (self.data['time'] > datetime.date(datetime.strptime(startdate, "%Y-%m-%d")))
-         & (self.data['time'] < datetime.date(datetime.strptime(enddate, "%Y-%m-%d")))]
+            & (self.data['time'] < datetime.date(datetime.strptime(enddate, "%Y-%m-%d")))]
 
     def reset_data(self):
 
@@ -99,25 +99,25 @@ class coinmarketcap_jsonfile(object):
             self.data = json.load(file)
 
     def print_min_max_datetime(self):
-        
         print(f"The oldest date is: {min(self.data['time'])}")
         print(f"The youngest date is: {max(self.data['time'])}")
+
 
 class crypto_csv_tweets(object):
     '''This class is for the csv files, it reads in a csv file and 
     puts it into a pandas dataframe format to be able to do analysis on'''
 
-    def __init__(self,filename):
+    def __init__(self, filename):
         self.filename = filename
         self.data = pd.read_csv(filename, error_bad_lines=False)
         self.clean_data()
 
     def reset_data(self):
-        
+
         ''' this resets the data to the original state'''
 
         self.data = pd.read_csv(self.filename, error_bad_lines=False)
-        
+
     def clean_column_names(self):
 
         '''This cleans all of the columns names to be easily used'''
@@ -140,7 +140,7 @@ class crypto_csv_tweets(object):
         self.clean_column_names()
         self.create_datetime_objects()
 
-    def date_filter(self,startdate,enddate):
+    def date_filter(self, startdate, enddate):
 
         ''' Note: startdate and enddate must be a string and formated like 2017-10-30'''
 
@@ -149,22 +149,25 @@ class crypto_csv_tweets(object):
          & (self.data['datetime'] < datetime.date(datetime.strptime(enddate, "%Y-%m-%d")))] 
 
     def count_tweets_by_day(self):
-        ''' This will return a dataframe with the date and the count of total tweets next to it.
-        The if else statement is for the two types of csv's used.'''
+        ''' This will return a dataframe with the date and the count of total 
+        tweets next to it. The if else statement is for the two types of 
+        csv's used.'''
 
         if 'total_volume_of_tweets' in self.data.columns.tolist():
 
-            df = self.data.groupby('datetime')['total_volume_of_tweets'].sum().reset_index()
+            df = self.data.groupby('datetime')['total_volume_of_tweets'].sum()\
+                    .reset_index()
             colnames = df.columns.tolist()
-            colnames = ['time','count']
+            colnames = ['time', 'count']
             df.columns = colnames
             return df
 
         else:
 
-            df = self.data['datetime'].value_counts().reset_index().sort_values('index').reset_index(drop=True)
+            df = self.data['datetime'].value_counts().reset_index()\
+                    .sort_values('index').reset_index(drop=True)
             colnames = df.columns.tolist()
-            colnames = ['time','count']
+            colnames = ['time', 'count']
             df.columns = colnames
             return df
 
@@ -174,5 +177,3 @@ class crypto_csv_tweets(object):
 
 if __name__ == "__main__":
     pass
-    
-
