@@ -145,7 +145,7 @@ From the information presented above, I concluded there is an correlation betwee
 
 
 # **Moving Forward**
-Moving forward with this project I woud definintely incorporate NLP as one statistic to see if sentiment does have any affect and also I would like to create a sort of traction metric from retweets,likes and replys. Also other social media platforms and news publications must have an effect on the market also if there is a correlation with just twitter so analyzing them would also be ideal. I also would have liked to create some sort of trading recomender based off of tweets inputted to truely see the functionally of this at work.
+Moving forward with this project I woud definintely want to incorporate NLP as one statistic to see if sentiment does have any affect. That would allow me to truely see if any publicity is good publicity. Another aspect I would like to investigate is to create a sort of traction metric from twitter retweets,likes and replys and other metrics associated with tweets to get a better idea of total "views". Also other social media platforms and news outlet publications must have an effect on the market also if there is a correlation with just twitter so analyzing them would also be intresting also. Ultimately I would move to create some sort of trading recomender based off of tweets inputted to truely see the functionally of this at work.
 
 # **Photo and Data Credits/Sources**
 ## Picture sources
